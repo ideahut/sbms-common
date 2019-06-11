@@ -1,25 +1,22 @@
 package com.github.ideahut.sbms.common.util;
 
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public final class TimeUtil {
+public abstract class TimeUtil {
 
-	private TimeUtil() {}	
-	
-	public static Long getGMTTimeMillis() {
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		Date now = new Date();
-		String value = format.format(now);
-		TimeZone gmt = TimeZone.getTimeZone("GMT");
-		format.setTimeZone(gmt);
-		Long result = 0L;
+	public static Long getGMTCurrentTimeMillis() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+		String source = sdf.format(new Date());
+		sdf.setTimeZone(TimeZone.getDefault());
 		try {
-			result = format.parse(value).getTime();
-		} catch (Exception e) {}
-		return result;
+			return sdf.parse(source).getTime();
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 }

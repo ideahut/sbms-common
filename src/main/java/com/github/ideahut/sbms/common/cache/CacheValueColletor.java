@@ -1,6 +1,8 @@
 package com.github.ideahut.sbms.common.cache;
 
-public interface CacheValueColletor<KEY, VALUE> {
+import java.io.Serializable;
+
+public interface CacheValueColletor<KEY, VALUE> extends Serializable {
 	
 	VALUE collect(KEY key, Object...args) throws Exception;
 	

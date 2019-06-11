@@ -80,27 +80,6 @@ public class LocalCache<KEY, VALUE> implements Cache<KEY, VALUE> {
 	}
 
 	@Override
-	public VALUE put(KEY key, VALUE value) {
-		if (value == null && !nullable) {
-			return null; 
-		}
-		if (!list.contains(key) && !list.add(key)) {
-			return null;
-		}
-		Store<VALUE> store = new Store<VALUE>(value , ageInMillis);
-		map.put(key, store);
-		int size = list.size();
-		if (limit != 0 && size > limit) {
-			int diff = size - limit;
-			for (int i = 0; i < diff; i++) { // FIFO
-				KEY k = list.remove(i);
-				map.remove(k);
-			}
-		}
-		return store.getValue();
-	}
-
-	@Override
 	public VALUE get(KEY key, Object...args) {
 		Store<VALUE> store = map.get(key);
 		if (store != null) {
@@ -120,6 +99,27 @@ public class LocalCache<KEY, VALUE> implements Cache<KEY, VALUE> {
 			value = put(key, value);
 		}
 		return value;
+	}
+	
+	@Override
+	public VALUE put(KEY key, VALUE value) {
+		if (value == null && !nullable) {
+			return null; 
+		}
+		if (!list.contains(key) && !list.add(key)) {
+			return null;
+		}
+		Store<VALUE> store = new Store<VALUE>(value , ageInMillis);
+		map.put(key, store);
+		int size = list.size();
+		if (limit != 0 && size > limit) {
+			int diff = size - limit;
+			for (int i = 0; i < diff; i++) { // FIFO
+				KEY k = list.remove(i);
+				map.remove(k);
+			}
+		}
+		return store.getValue();
 	}
 
 	@Override

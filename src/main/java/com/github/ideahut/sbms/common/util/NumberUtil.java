@@ -2,7 +2,7 @@ package com.github.ideahut.sbms.common.util;
 
 import java.util.Arrays;
 
-public final class NumberUtil {
+public abstract class NumberUtil {
 
 	/*
 	 * To convert (long -> alphanumeric) and (char -> alphanumeric) with spesific length

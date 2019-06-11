@@ -2,10 +2,8 @@ package com.github.ideahut.sbms.common.util;
 
 import java.security.MessageDigest;
 
-public final class DigestUtil {
+public abstract class DigestUtil {
 
-	private DigestUtil() {}
-	
 	/*
 	 * DIGEST
 	 */
